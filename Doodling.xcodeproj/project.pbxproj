@@ -1,0 +1,466 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		EBFA41C52166A13100932586 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA41C42166A13100932586 /* AppDelegate.swift */; };
+		EBFA41C72166A13100932586 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA41C62166A13100932586 /* ViewController.swift */; };
+		EBFA41CA2166A13100932586 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBFA41C82166A13100932586 /* Main.storyboard */; };
+		EBFA41CC2166A13200932586 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBFA41CB2166A13200932586 /* Assets.xcassets */; };
+		EBFA41CF2166A13200932586 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBFA41CD2166A13200932586 /* LaunchScreen.storyboard */; };
+		EBFA41DA2166A13200932586 /* DoodlingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA41D92166A13200932586 /* DoodlingTests.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EBFA41D62166A13200932586 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EBFA41B92166A13100932586 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EBFA41C02166A13100932586;
+			remoteInfo = Doodling;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		EBFA41C12166A13100932586 /* Doodling.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doodling.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBFA41C42166A13100932586 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		EBFA41C62166A13100932586 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		EBFA41C92166A13100932586 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		EBFA41CB2166A13200932586 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EBFA41CE2166A13200932586 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		EBFA41D02166A13200932586 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EBFA41D52166A13200932586 /* DoodlingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoodlingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBFA41D92166A13200932586 /* DoodlingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoodlingTests.swift; sourceTree = "<group>"; };
+		EBFA41DB2166A13200932586 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		EBFA41BE2166A13100932586 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EBFA41D22166A13200932586 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		EBFA41B82166A13100932586 = {
+			isa = PBXGroup;
+			children = (
+				EBFA41C32166A13100932586 /* Doodling */,
+				EBFA41D82166A13200932586 /* DoodlingTests */,
+				EBFA41C22166A13100932586 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EBFA41C22166A13100932586 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				EBFA41C12166A13100932586 /* Doodling.app */,
+				EBFA41D52166A13200932586 /* DoodlingTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		EBFA41C32166A13100932586 /* Doodling */ = {
+			isa = PBXGroup;
+			children = (
+				EBFA41C42166A13100932586 /* AppDelegate.swift */,
+				EBFA41C62166A13100932586 /* ViewController.swift */,
+				EBFA41C82166A13100932586 /* Main.storyboard */,
+				EBFA41CB2166A13200932586 /* Assets.xcassets */,
+				EBFA41CD2166A13200932586 /* LaunchScreen.storyboard */,
+				EBFA41D02166A13200932586 /* Info.plist */,
+			);
+			path = Doodling;
+			sourceTree = "<group>";
+		};
+		EBFA41D82166A13200932586 /* DoodlingTests */ = {
+			isa = PBXGroup;
+			children = (
+				EBFA41D92166A13200932586 /* DoodlingTests.swift */,
+				EBFA41DB2166A13200932586 /* Info.plist */,
+			);
+			path = DoodlingTests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		EBFA41C02166A13100932586 /* Doodling */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EBFA41DE2166A13200932586 /* Build configuration list for PBXNativeTarget "Doodling" */;
+			buildPhases = (
+				EBFA41BD2166A13100932586 /* Sources */,
+				EBFA41BE2166A13100932586 /* Frameworks */,
+				EBFA41BF2166A13100932586 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Doodling;
+			productName = Doodling;
+			productReference = EBFA41C12166A13100932586 /* Doodling.app */;
+			productType = "com.apple.product-type.application";
+		};
+		EBFA41D42166A13200932586 /* DoodlingTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EBFA41E12166A13200932586 /* Build configuration list for PBXNativeTarget "DoodlingTests" */;
+			buildPhases = (
+				EBFA41D12166A13200932586 /* Sources */,
+				EBFA41D22166A13200932586 /* Frameworks */,
+				EBFA41D32166A13200932586 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EBFA41D72166A13200932586 /* PBXTargetDependency */,
+			);
+			name = DoodlingTests;
+			productName = DoodlingTests;
+			productReference = EBFA41D52166A13200932586 /* DoodlingTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EBFA41B92166A13100932586 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1000;
+				LastUpgradeCheck = 1000;
+				ORGANIZATIONNAME = "Fredrik Bystam";
+				TargetAttributes = {
+					EBFA41C02166A13100932586 = {
+						CreatedOnToolsVersion = 10.0;
+					};
+					EBFA41D42166A13200932586 = {
+						CreatedOnToolsVersion = 10.0;
+						TestTargetID = EBFA41C02166A13100932586;
+					};
+				};
+			};
+			buildConfigurationList = EBFA41BC2166A13100932586 /* Build configuration list for PBXProject "Doodling" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = EBFA41B82166A13100932586;
+			productRefGroup = EBFA41C22166A13100932586 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				EBFA41C02166A13100932586 /* Doodling */,
+				EBFA41D42166A13200932586 /* DoodlingTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		EBFA41BF2166A13100932586 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBFA41CF2166A13200932586 /* LaunchScreen.storyboard in Resources */,
+				EBFA41CC2166A13200932586 /* Assets.xcassets in Resources */,
+				EBFA41CA2166A13100932586 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EBFA41D32166A13200932586 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		EBFA41BD2166A13100932586 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBFA41C72166A13100932586 /* ViewController.swift in Sources */,
+				EBFA41C52166A13100932586 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EBFA41D12166A13200932586 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EBFA41DA2166A13200932586 /* DoodlingTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		EBFA41D72166A13200932586 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EBFA41C02166A13100932586 /* Doodling */;
+			targetProxy = EBFA41D62166A13200932586 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		EBFA41C82166A13100932586 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EBFA41C92166A13100932586 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		EBFA41CD2166A13200932586 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				EBFA41CE2166A13200932586 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		EBFA41DC2166A13200932586 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		EBFA41DD2166A13200932586 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		EBFA41DF2166A13200932586 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Doodling/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = frallan.Doodling;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		EBFA41E02166A13200932586 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = Doodling/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = frallan.Doodling;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		EBFA41E22166A13200932586 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = DoodlingTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = frallan.DoodlingTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Doodling.app/Doodling";
+			};
+			name = Debug;
+		};
+		EBFA41E32166A13200932586 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = DoodlingTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = frallan.DoodlingTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Doodling.app/Doodling";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		EBFA41BC2166A13100932586 /* Build configuration list for PBXProject "Doodling" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBFA41DC2166A13200932586 /* Debug */,
+				EBFA41DD2166A13200932586 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EBFA41DE2166A13200932586 /* Build configuration list for PBXNativeTarget "Doodling" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBFA41DF2166A13200932586 /* Debug */,
+				EBFA41E02166A13200932586 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EBFA41E12166A13200932586 /* Build configuration list for PBXNativeTarget "DoodlingTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EBFA41E22166A13200932586 /* Debug */,
+				EBFA41E32166A13200932586 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EBFA41B92166A13100932586 /* Project object */;
+}
