@@ -7,12 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EBB2FFE42167BB4B009E5B4C /* SignalsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB2FFE32167BB4B009E5B4C /* SignalsTests.swift */; };
 		EBFA41C52166A13100932586 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA41C42166A13100932586 /* AppDelegate.swift */; };
 		EBFA41C72166A13100932586 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA41C62166A13100932586 /* ViewController.swift */; };
 		EBFA41CA2166A13100932586 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBFA41C82166A13100932586 /* Main.storyboard */; };
 		EBFA41CC2166A13200932586 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBFA41CB2166A13200932586 /* Assets.xcassets */; };
 		EBFA41CF2166A13200932586 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBFA41CD2166A13200932586 /* LaunchScreen.storyboard */; };
 		EBFA41DA2166A13200932586 /* DoodlingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA41D92166A13200932586 /* DoodlingTests.swift */; };
+		EBFA41E62166A14A00932586 /* Signals.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA41E52166A14A00932586 /* Signals.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -26,6 +28,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EBB2FFE32167BB4B009E5B4C /* SignalsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalsTests.swift; sourceTree = "<group>"; };
 		EBFA41C12166A13100932586 /* Doodling.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doodling.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBFA41C42166A13100932586 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EBFA41C62166A13100932586 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -36,6 +39,7 @@
 		EBFA41D52166A13200932586 /* DoodlingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoodlingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBFA41D92166A13200932586 /* DoodlingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DoodlingTests.swift; sourceTree = "<group>"; };
 		EBFA41DB2166A13200932586 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EBFA41E52166A14A00932586 /* Signals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Signals.swift; path = Doodling/Signals.swift; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +87,7 @@
 				EBFA41CB2166A13200932586 /* Assets.xcassets */,
 				EBFA41CD2166A13200932586 /* LaunchScreen.storyboard */,
 				EBFA41D02166A13200932586 /* Info.plist */,
+				EBFA41E42166A13900932586 /* Signals */,
 			);
 			path = Doodling;
 			sourceTree = "<group>";
@@ -92,8 +97,17 @@
 			children = (
 				EBFA41D92166A13200932586 /* DoodlingTests.swift */,
 				EBFA41DB2166A13200932586 /* Info.plist */,
+				EBB2FFE32167BB4B009E5B4C /* SignalsTests.swift */,
 			);
 			path = DoodlingTests;
+			sourceTree = "<group>";
+		};
+		EBFA41E42166A13900932586 /* Signals */ = {
+			isa = PBXGroup;
+			children = (
+				EBFA41E52166A14A00932586 /* Signals.swift */,
+			);
+			path = Signals;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -199,6 +213,7 @@
 			files = (
 				EBFA41C72166A13100932586 /* ViewController.swift in Sources */,
 				EBFA41C52166A13100932586 /* AppDelegate.swift in Sources */,
+				EBFA41E62166A14A00932586 /* Signals.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,6 +222,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBFA41DA2166A13200932586 /* DoodlingTests.swift in Sources */,
+				EBB2FFE42167BB4B009E5B4C /* SignalsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
