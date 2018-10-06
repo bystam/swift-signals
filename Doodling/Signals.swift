@@ -4,7 +4,23 @@
 
 import Foundation
 
-final class SignalToken {
+protocol SignalToken {}
+
+extension SignalToken {
+    func bindLifetime(to bag: SignalTokenBag) {
+        bag.tokens.append(self)
+    }
+}
+
+final class SignalTokenBag {
+    fileprivate var tokens: [SignalToken]
+
+    init(tokens: [SignalToken] = []) {
+        self.tokens = tokens
+    }
+}
+
+private final class SourceToken: SignalToken {
     
     private let unsubscribe: () -> Void
     
@@ -15,14 +31,6 @@ final class SignalToken {
     deinit {
         unsubscribe()
     }
-
-    func bindLifetime(to bag: SignalTokenBag) {
-        bag.tokens.append(self)
-    }
-}
-
-final class SignalTokenBag {
-    fileprivate var tokens: [SignalToken] = []
 }
 
 class Signal<Element> {
@@ -53,7 +61,7 @@ final class Source<Element>: Signal<Element> {
             handler(listener, element)
         }
 
-        return SignalToken { [weak self] in
+        return SourceToken { [weak self] in
             self?.listeners[id] = nil
         }
     }
@@ -108,7 +116,7 @@ private final class Buffer<Element>: Signal<Element> {
 
     init(upstream: Signal<Element>, count: Int) {
         self.upstream = upstream
-        self.count = count
+        self.count = max(count, 0)
 
         super.init()
 
@@ -121,21 +129,10 @@ private final class Buffer<Element>: Signal<Element> {
     }
 
     override func addListener<L>(_ listener: L, handler: @escaping (L, Element) -> Void) -> SignalToken where L : AnyObject {
-
         buffer.forEach { element in
             handler(listener, element)
         }
-
-        return upstream.addListener(listener, handler: { [weak self] (l, element) in
-            guard let self = self else { return }
-
-            self.buffer.append(element)
-            if self.buffer.count > self.count {
-                self.buffer.removeFirst()
-            }
-
-            handler(l, element)
-        })
+        return upstream.addListener(listener, handler: handler)
     }
 }
 
@@ -159,3 +156,20 @@ private final class Distinct<Element: Equatable>: Signal<Element> {
         })
     }
 }
+
+//private final class Combination<Tuple>: Signal<Tuple> {
+//
+//    private let upstreams: [Signal<Any>]
+//    private let transform: ([Any]) -> Tuple
+//    private var elements: [Any?]
+//
+//    init(upstreams: [Signal<Any>], transform: @escaping ([Any]) -> Tuple) {
+//        self.upstreams = upstreams
+//        self.transform = transform
+//        self.elements = Array(repeating: nil, count: upstreams.count)
+//    }
+//
+//    override func addListener<L>(_ listener: L, handler: @escaping (L, Tuple) -> Void) -> SignalToken where L : AnyObject {
+//
+//    }
+//}
