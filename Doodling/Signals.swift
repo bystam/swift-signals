@@ -76,6 +76,10 @@ final class Source<Element>: Signal<Element> {
 }
 
 extension Signal {
+    func filter(_ predicate: @escaping (Element) -> Bool) -> Signal<Element> {
+        return Filter(upstream: self, predicate: predicate)
+    }
+
     func map<DownstreamElement>(_ mapper: @escaping (Element) -> DownstreamElement) -> Signal<DownstreamElement> {
         return Transform(upstream: self, mapper: mapper)
     }
@@ -143,6 +147,26 @@ extension Signal {
 private extension Signal {
     func typeErase() -> Signal<Any> {
         return map { $0 as Any }
+    }
+}
+
+private final class Filter<Element>: Signal<Element> {
+
+    private let upstream: Signal<Element>
+    private let predicate: (Element) -> Bool
+
+    init(upstream: Signal<Element>, predicate: @escaping (Element) -> Bool) {
+        self.upstream = upstream
+        self.predicate = predicate
+    }
+
+    override func addListener<L>(_ listener: L, handler: @escaping (L, Element) -> Void) -> SignalToken where L : AnyObject {
+        let predicate = self.predicate
+        return upstream.addListener(listener, handler: { (l, element) in
+            if predicate(element) {
+                handler(l, element)
+            }
+        })
     }
 }
 

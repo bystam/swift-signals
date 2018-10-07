@@ -43,6 +43,22 @@ class SignalsTests: XCTestCase {
         XCTAssertEqual(values, [])
     }
 
+    func testFilter() {
+        let signal = source
+            .filter { $0 < 5 }
+
+        signal
+            .addListener(self, handler: placeInValues)
+            .bindLifetime(to: bag)
+
+        source.publish(1)
+        source.publish(3)
+        source.publish(5)
+        source.publish(4)
+
+        XCTAssertEqual(values, [1, 3, 4])
+    }
+
     func testMap() {
         let signal = source
             .map { int in String(int) }
