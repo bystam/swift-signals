@@ -193,6 +193,38 @@ class SignalsTests: XCTestCase {
         XCTAssertEqual(values, [1337, 1338, 1337])
     }
 
+    func testMerge_noElements_beforeListening() {
+        let source1 = Source<Int>()
+        let source2 = Source<Int>()
+        let signal = Signal<Int>.merge([source1, source2])
+
+        source1.publish(1)
+        source2.publish(2)
+        source1.publish(3)
+
+        signal
+            .addListener(self, handler: placeInValues)
+            .bindLifetime(to: bag)
+
+        XCTAssertEqual(values, [])
+    }
+
+    func testMerge_someElements_afterListening() {
+        let source1 = Source<Int>()
+        let source2 = Source<Int>()
+        let signal = Signal<Int>.merge([source1, source2])
+
+        signal
+            .addListener(self, handler: placeInValues)
+            .bindLifetime(to: bag)
+
+        source1.publish(1)
+        source2.publish(2)
+        source1.publish(3)
+
+        XCTAssertEqual(values, [1, 2, 3])
+    }
+
     func testCombine_noElement_beforeAll() {
         let source1 = Source<Int>()
         let source2 = Source<Int>()

@@ -92,6 +92,11 @@ extension Signal where Element: Equatable {
 }
 
 extension Signal {
+
+    static func merge(_ upstreams: [Signal<Element>]) -> Signal<Element> {
+        return Merge(upstreams: upstreams)
+    }
+
     static func combine<A, B>(_ a: Signal<A>, _ b: Signal<B>, with transform: @escaping (A, B) -> Element) -> Signal<Element> {
         let upstreams = [ a.typeErase(), b.typeErase() ]
         return Combinator<Element>(upstreams: upstreams, type: .combine, transform: { values in
@@ -210,6 +215,22 @@ private final class Distinct<Element: Equatable>: Signal<Element> {
             previous = element
             handler(l, element)
         })
+    }
+}
+
+private final class Merge<Element>: Signal<Element> {
+
+    private let upstreams: [Signal<Element>]
+
+    init(upstreams: [Signal<Element>]) {
+        self.upstreams = upstreams
+    }
+
+    override func addListener<L>(_ listener: L, handler: @escaping (L, Element) -> Void) -> SignalToken where L : AnyObject {
+        let tokens = upstreams.map { upstream in
+            return upstream.addListener(listener, handler: handler)
+        }
+        return SignalTokenBag(tokens: tokens)
     }
 }
 
