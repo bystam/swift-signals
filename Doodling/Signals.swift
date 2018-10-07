@@ -92,16 +92,46 @@ extension Signal where Element: Equatable {
 }
 
 extension Signal {
-    static func combining<A, B>(_ a: Signal<A>, _ b: Signal<B>, with transform: @escaping (A, B) -> Element) -> Signal<Element> {
-        return Combination<(A, B)>.two(a, b).map(transform)
+    static func combine<A, B>(_ a: Signal<A>, _ b: Signal<B>, with transform: @escaping (A, B) -> Element) -> Signal<Element> {
+        let upstreams = [ a.typeErase(), b.typeErase() ]
+        return Combinator<Element>(upstreams: upstreams, type: .combine, transform: { values in
+            return transform(values[0] as! A, values[1] as! B)
+        })
     }
 
-    static func combining<A, B, C>(_ a: Signal<A>, _ b: Signal<B>, _ c: Signal<C>, with transform: @escaping (A, B, C) -> Element) -> Signal<Element> {
-        return Combination<(A, B, C)>.three(a, b, c).map(transform)
+    static func combine<A, B, C>(_ a: Signal<A>, _ b: Signal<B>, _ c: Signal<C>, with transform: @escaping (A, B, C) -> Element) -> Signal<Element> {
+        let upstreams = [ a.typeErase(), b.typeErase(), c.typeErase() ]
+        return Combinator<Element>(upstreams: upstreams, type: .combine, transform: { values in
+            return transform(values[0] as! A, values[1] as! B, values[2] as! C)
+        })
     }
 
-    static func combining<A, B, C, D>(_ a: Signal<A>, _ b: Signal<B>, _ c: Signal<C>, _ d: Signal<D>, with transform: @escaping (A, B, C, D) -> Element) -> Signal<Element> {
-        return Combination<(A, B, C, D)>.four(a, b, c, d).map(transform)
+    static func combine<A, B, C, D>(_ a: Signal<A>, _ b: Signal<B>, _ c: Signal<C>, _ d: Signal<D>, with transform: @escaping (A, B, C, D) -> Element) -> Signal<Element> {
+        let upstreams = [ a.typeErase(), b.typeErase(), c.typeErase(), d.typeErase() ]
+        return Combinator<Element>(upstreams: upstreams, type: .combine, transform: { values in
+            return transform(values[0] as! A, values[1] as! B, values[2] as! C, values[3] as! D)
+        })
+    }
+
+    static func zip<A, B>(_ a: Signal<A>, _ b: Signal<B>, with transform: @escaping (A, B) -> Element) -> Signal<Element> {
+        let upstreams = [ a.typeErase(), b.typeErase() ]
+        return Combinator<Element>(upstreams: upstreams, type: .zip, transform: { values in
+            return transform(values[0] as! A, values[1] as! B)
+        })
+    }
+
+    static func zip<A, B, C>(_ a: Signal<A>, _ b: Signal<B>, _ c: Signal<C>, with transform: @escaping (A, B, C) -> Element) -> Signal<Element> {
+        let upstreams = [ a.typeErase(), b.typeErase(), c.typeErase() ]
+        return Combinator<Element>(upstreams: upstreams, type: .zip, transform: { values in
+            return transform(values[0] as! A, values[1] as! B, values[2] as! C)
+        })
+    }
+
+    static func zip<A, B, C, D>(_ a: Signal<A>, _ b: Signal<B>, _ c: Signal<C>, _ d: Signal<D>, with transform: @escaping (A, B, C, D) -> Element) -> Signal<Element> {
+        let upstreams = [ a.typeErase(), b.typeErase(), c.typeErase(), d.typeErase() ]
+        return Combinator<Element>(upstreams: upstreams, type: .zip, transform: { values in
+            return transform(values[0] as! A, values[1] as! B, values[2] as! C, values[3] as! D)
+        })
     }
 }
 
@@ -134,8 +164,8 @@ private final class Buffer<Element>: Signal<Element> {
 
     private let upstream: Signal<Element>
     private let count: Int
-    private var buffer: [Element] = []
 
+    private var buffer: [Element] = []
     private var upstreamToken: SignalToken?
 
     init(upstream: Signal<Element>, count: Int) {
@@ -156,7 +186,9 @@ private final class Buffer<Element>: Signal<Element> {
         buffer.forEach { element in
             handler(listener, element)
         }
-        return upstream.addListener(listener, handler: handler)
+        return upstream.addListener(listener, handler: { l, element in
+            handler(l, element)
+        })
     }
 }
 
@@ -181,54 +213,57 @@ private final class Distinct<Element: Equatable>: Signal<Element> {
     }
 }
 
-private final class Combination<Tuple>: Signal<Tuple> {
+private final class Combinator<Element>: Signal<Element> {
+
+    enum FrequencyType {
+        case zip, combine
+    }
 
     private let upstreams: [Signal<Any>]
-    private let transform: ([Any]) -> Tuple
-    private var elements: [Any?]
+    private let type: FrequencyType
+    private let transform: ([Any]) -> Element
 
-    private init(upstreams: [Signal<Any>], transform: @escaping ([Any]) -> Tuple) {
+    private var preListeningElements: [Any?]
+    private var upstreamToken: SignalToken?
+
+    init(upstreams: [Signal<Any>], type: FrequencyType, transform: @escaping ([Any]) -> Element) {
         self.upstreams = upstreams
+        self.type = type
         self.transform = transform
-        self.elements = Array(repeating: nil, count: upstreams.count)
+        self.preListeningElements = Array(repeating: nil, count: upstreams.count)
+
+        super.init()
+
+        let tokens = upstreams.enumerated().map { index, upstream in
+            return upstream.addListener(self, handler: { [weak self] l, element in
+                guard let self = self else { return }
+                _ = self.generateValueIfFilled(inserting: element, at: index, in: &self.preListeningElements)
+            })
+        }
+
+        upstreamToken = SignalTokenBag(tokens: tokens)
     }
 
-    static func two<A, B>(_ a: Signal<A>, _ b: Signal<B>) -> Signal<(A, B)> {
-        let upstreams = [ a.typeErase(), b.typeErase() ]
-        return Combination<(A, B)>(upstreams: upstreams, transform: { values in
-            return (values[0] as! A, values[1] as! B)
-        })
-    }
+    override func addListener<L>(_ listener: L, handler: @escaping (L, Element) -> Void) -> SignalToken where L : AnyObject {
+        var elements: [Any?] = preListeningElements
 
-    static func three<A, B, C>(_ a: Signal<A>, _ b: Signal<B>, _ c: Signal<C>) -> Signal<(A, B, C)> {
-        let upstreams = [ a.typeErase(), b.typeErase(), c.typeErase() ]
-        return Combination<(A, B, C)>(upstreams: upstreams, transform: { values in
-            return (values[0] as! A, values[1] as! B, values[2] as! C)
-        })
-    }
-
-    static func four<A, B, C, D>(_ a: Signal<A>, _ b: Signal<B>, _ c: Signal<C>, _ d: Signal<D>) -> Signal<(A, B, C, D)> {
-        let upstreams = [ a.typeErase(), b.typeErase(), c.typeErase(), d.typeErase() ]
-        return Combination<(A, B, C, D)>(upstreams: upstreams, transform: { values in
-            return (values[0] as! A, values[1] as! B, values[2] as! C, values[3] as! D)
-        })
-    }
-
-    override func addListener<L>(_ listener: L, handler: @escaping (L, Tuple) -> Void) -> SignalToken where L : AnyObject {
         let tokens = upstreams.enumerated().map { index, upstream in
             return upstream.addListener(listener, handler: { [weak self] l, element in
-                guard let tuple = self?.mapValueIfAllPresent(element, at: index) else { return }
-                handler(l, tuple)
+                guard let element = self?.generateValueIfFilled(inserting: element, at: index, in: &elements) else { return }
+                handler(l, element)
             })
         }
 
         return SignalTokenBag(tokens: tokens)
     }
 
-    private func mapValueIfAllPresent(_ value: Any, at index: Int) -> Tuple? {
+    private func generateValueIfFilled(inserting value: Any, at index: Int, in elements: inout [Any?]) -> Element? {
         elements[index] = value
         let existingElements = elements.filter { $0 != nil }.map { $0! }
         if existingElements.count == upstreams.count {
+            if type == .zip {
+                elements = Array(repeating: nil, count: upstreams.count)
+            }
             return transform(existingElements)
         }
         return nil

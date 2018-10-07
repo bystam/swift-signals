@@ -196,7 +196,7 @@ class SignalsTests: XCTestCase {
     func testCombine_noElement_beforeAll() {
         let source1 = Source<Int>()
         let source2 = Source<Int>()
-        let signal = Signal<Int>.combining(source1, source2, with: +)
+        let signal = Signal<Int>.combine(source1, source2, with: +)
 
         signal
             .addListener(self, handler: placeInValues)
@@ -210,7 +210,7 @@ class SignalsTests: XCTestCase {
     func testCombine_oneElement_afterBoth() {
         let source1 = Source<Int>()
         let source2 = Source<Int>()
-        let signal = Signal<Int>.combining(source1, source2, with: +)
+        let signal = Signal<Int>.combine(source1, source2, with: +)
 
         signal
             .addListener(self, handler: placeInValues)
@@ -222,10 +222,26 @@ class SignalsTests: XCTestCase {
         XCTAssertEqual(values, [3])
     }
 
+    func testCombine_oneElement_afterBothDespiteLateListening() {
+        let source1 = Source<Int>()
+        let source2 = Source<Int>()
+        let signal = Signal<Int>.combine(source1, source2, with: +)
+
+        source1.publish(1)
+
+        signal
+            .addListener(self, handler: placeInValues)
+            .bindLifetime(to: bag)
+
+        source2.publish(2)
+
+        XCTAssertEqual(values, [3])
+    }
+
     func testCombine_threeElements_afterTwoEach() {
         let source1 = Source<Int>()
         let source2 = Source<Int>()
-        let signal = Signal<Int>.combining(source1, source2, with: +)
+        let signal = Signal<Int>.combine(source1, source2, with: +)
 
         signal
             .addListener(self, handler: placeInValues)
@@ -244,8 +260,8 @@ class SignalsTests: XCTestCase {
         let source2 = Source<Int>()
         let source3 = Source<Int>()
         let source4 = Source<Int>()
-        let signal = Signal<Int>.combining(Signal<Int>.combining(source1, source2, with: +),
-                                           Signal<Int>.combining(source3, source4, with: +),
+        let signal = Signal<Int>.combine(Signal<Int>.combine(source1, source2, with: +),
+                                           Signal<Int>.combine(source3, source4, with: +),
                                            with: +)
 
         signal
@@ -264,8 +280,8 @@ class SignalsTests: XCTestCase {
         let source2 = Source<Int>()
         let source3 = Source<Int>()
         let source4 = Source<Int>()
-        let signal = Signal<Int>.combining(Signal<Int>.combining(source1, source2, with: +),
-                                           Signal<Int>.combining(source3, source4, with: +),
+        let signal = Signal<Int>.combine(Signal<Int>.combine(source1, source2, with: +),
+                                           Signal<Int>.combine(source3, source4, with: +),
                                            with: +)
 
         signal
@@ -285,8 +301,8 @@ class SignalsTests: XCTestCase {
         let source2 = Source<Int>()
         let source3 = Source<Int>()
         let source4 = Source<Int>()
-        let signal = Signal<Int>.combining(Signal<Int>.combining(source1, source2, with: +),
-                                           Signal<Int>.combining(source3, source4, with: +),
+        let signal = Signal<Int>.combine(Signal<Int>.combine(source1, source2, with: +),
+                                           Signal<Int>.combine(source3, source4, with: +),
                                            with: +)
 
         signal
@@ -305,12 +321,139 @@ class SignalsTests: XCTestCase {
         XCTAssertEqual(values, [10, 14, 18, 22, 26])
     }
 
+    func testCombine_oneElement_afterBothWithTwoListeners() {
+        let source1 = Source<Int>()
+        let source2 = Source<Int>()
+        let signal = Signal<Int>.combine(source1, source2, with: +)
+
+        var values1: [Int] = []
+        var values2: [Int] = []
+
+        signal
+            .addListener(self, handler: { _, e in values1.append(e) })
+            .bindLifetime(to: bag)
+
+        signal
+            .addListener(self, handler: { _, e in values2.append(e) })
+            .bindLifetime(to: bag)
+
+        source1.publish(1)
+        source1.publish(2)
+        source2.publish(2)
+        source2.publish(3)
+
+        XCTAssertEqual(values1, [4, 5])
+        XCTAssertEqual(values2, [4, 5])
+    }
+
+    func testZip_noElement_beforeAll() {
+        let source1 = Source<Int>()
+        let source2 = Source<Int>()
+        let signal = Signal<Int>.zip(source1, source2, with: +)
+
+        signal
+            .addListener(self, handler: placeInValues)
+            .bindLifetime(to: bag)
+
+        source1.publish(1)
+
+        XCTAssertEqual(values, [])
+    }
+
+    func testZip_noElement_ifProducedBeforeListening() {
+        let source1 = Source<Int>()
+        let source2 = Source<Int>()
+        let signal = Signal<Int>.zip(source1, source2, with: +)
+
+        source1.publish(1)
+        source2.publish(1)
+
+        signal
+            .addListener(self, handler: placeInValues)
+            .bindLifetime(to: bag)
+
+        source1.publish(1)
+
+        XCTAssertEqual(values, [])
+    }
+
+    func testZip_oneElement_afterBoth() {
+        let source1 = Source<Int>()
+        let source2 = Source<Int>()
+        let signal = Signal<Int>.zip(source1, source2, with: +)
+
+        signal
+            .addListener(self, handler: placeInValues)
+            .bindLifetime(to: bag)
+
+        source1.publish(1)
+        source2.publish(2)
+
+        XCTAssertEqual(values, [3])
+    }
+
+    func testZip_oneElement_afterOneAndTwo() {
+        let source1 = Source<Int>()
+        let source2 = Source<Int>()
+        let signal = Signal<Int>.zip(source1, source2, with: +)
+
+        signal
+            .addListener(self, handler: placeInValues)
+            .bindLifetime(to: bag)
+
+        source1.publish(1)
+        source2.publish(2)
+        source1.publish(3)
+
+        XCTAssertEqual(values, [3])
+    }
+
+    func testZip_twoElements_afterTwoEach() {
+        let source1 = Source<Int>()
+        let source2 = Source<Int>()
+        let signal = Signal<Int>.zip(source1, source2, with: +)
+
+        signal
+            .addListener(self, handler: placeInValues)
+            .bindLifetime(to: bag)
+
+        source1.publish(1)
+        source2.publish(2)
+        source1.publish(3)
+        source2.publish(4)
+
+        XCTAssertEqual(values, [3, 7])
+    }
+
+    func testZip_oneElement_afterBothWithTwoListeners() {
+        let source1 = Source<Int>()
+        let source2 = Source<Int>()
+        let signal = Signal<Int>.zip(source1, source2, with: +)
+
+        var values1: [Int] = []
+        var values2: [Int] = []
+
+        signal
+            .addListener(self, handler: { _, e in values1.append(e) })
+            .bindLifetime(to: bag)
+
+        signal
+            .addListener(self, handler: { _, e in values2.append(e) })
+            .bindLifetime(to: bag)
+
+        source1.publish(1)
+        source2.publish(2)
+
+        XCTAssertEqual(values1, [3])
+        XCTAssertEqual(values2, [3])
+    }
+
     func testComplex() {
         let source1 = Source<String>()
         let source2 = Source<String>()
         let source3 = Source<String>()
         let signal = Signal<String>
-            .combining(source1, source2, source3, with: { min($0, $1, $2) })
+            .combine(source1, source2, source3, with: { min($0, $1, $2) })
             .distinct()
             .buffer(count: 2)
             .map { $0.uppercased() }
@@ -355,7 +498,7 @@ class SignalsTests: XCTestCase {
         let source2 = Source<String>()
         let source3 = Source<String>()
         let signal = Signal<String>
-            .combining(source1, source2, source3, with: { min($0, $1, $2) })
+            .combine(source1, source2, source3, with: { min($0, $1, $2) })
             .distinct()
             .buffer(count: 2)
             .map { $0.count }
@@ -399,7 +542,7 @@ class SignalsTests: XCTestCase {
     func testUnsubscribe_combination() {
         let source1 = Source<Int>()
         let source2 = Source<Int>()
-        let signal = Signal<Int>.combining(source1, source2, with: +)
+        let signal = Signal<Int>.combine(source1, source2, with: +)
 
         var token: SignalToken?
         autoreleasepool {
@@ -423,8 +566,8 @@ class SignalsTests: XCTestCase {
         let source2 = Source<Int>()
         let source3 = Source<Int>()
         let source4 = Source<Int>()
-        let signal = Signal<Int>.combining(Signal<Int>.combining(source1, source2, with: +),
-                                           Signal<Int>.combining(source3, source4, with: +),
+        let signal = Signal<Int>.combine(Signal<Int>.combine(source1, source2, with: +),
+                                           Signal<Int>.combine(source3, source4, with: +),
                                            with: +)
 
         var token: SignalToken?
