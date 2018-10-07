@@ -12,10 +12,14 @@ extension SignalToken {
     }
 }
 
-final class SignalTokenBag {
+final class SignalTokenBag: SignalToken {
     fileprivate var tokens: [SignalToken]
 
-    init(tokens: [SignalToken] = []) {
+    init() {
+        self.tokens = []
+    }
+
+    fileprivate init(tokens: [SignalToken]) {
         self.tokens = tokens
     }
 }
@@ -84,6 +88,26 @@ extension Signal {
 extension Signal where Element: Equatable {
     func distinct() -> Signal<Element> {
         return Distinct(upstream: self)
+    }
+}
+
+extension Signal {
+    static func combining<A, B>(_ a: Signal<A>, _ b: Signal<B>, with transform: @escaping (A, B) -> Element) -> Signal<Element> {
+        return Combination<(A, B)>.two(a, b).map(transform)
+    }
+
+    static func combining<A, B, C>(_ a: Signal<A>, _ b: Signal<B>, _ c: Signal<C>, with transform: @escaping (A, B, C) -> Element) -> Signal<Element> {
+        return Combination<(A, B, C)>.three(a, b, c).map(transform)
+    }
+
+    static func combining<A, B, C, D>(_ a: Signal<A>, _ b: Signal<B>, _ c: Signal<C>, _ d: Signal<D>, with transform: @escaping (A, B, C, D) -> Element) -> Signal<Element> {
+        return Combination<(A, B, C, D)>.four(a, b, c, d).map(transform)
+    }
+}
+
+private extension Signal {
+    func typeErase() -> Signal<Any> {
+        return map { $0 as Any }
     }
 }
 
@@ -157,19 +181,56 @@ private final class Distinct<Element: Equatable>: Signal<Element> {
     }
 }
 
-//private final class Combination<Tuple>: Signal<Tuple> {
-//
-//    private let upstreams: [Signal<Any>]
-//    private let transform: ([Any]) -> Tuple
-//    private var elements: [Any?]
-//
-//    init(upstreams: [Signal<Any>], transform: @escaping ([Any]) -> Tuple) {
-//        self.upstreams = upstreams
-//        self.transform = transform
-//        self.elements = Array(repeating: nil, count: upstreams.count)
-//    }
-//
-//    override func addListener<L>(_ listener: L, handler: @escaping (L, Tuple) -> Void) -> SignalToken where L : AnyObject {
-//
-//    }
-//}
+private final class Combination<Tuple>: Signal<Tuple> {
+
+    private let upstreams: [Signal<Any>]
+    private let transform: ([Any]) -> Tuple
+    private var elements: [Any?]
+
+    private init(upstreams: [Signal<Any>], transform: @escaping ([Any]) -> Tuple) {
+        self.upstreams = upstreams
+        self.transform = transform
+        self.elements = Array(repeating: nil, count: upstreams.count)
+    }
+
+    static func two<A, B>(_ a: Signal<A>, _ b: Signal<B>) -> Signal<(A, B)> {
+        let upstreams = [ a.typeErase(), b.typeErase() ]
+        return Combination<(A, B)>(upstreams: upstreams, transform: { values in
+            return (values[0] as! A, values[1] as! B)
+        })
+    }
+
+    static func three<A, B, C>(_ a: Signal<A>, _ b: Signal<B>, _ c: Signal<C>) -> Signal<(A, B, C)> {
+        let upstreams = [ a.typeErase(), b.typeErase(), c.typeErase() ]
+        return Combination<(A, B, C)>(upstreams: upstreams, transform: { values in
+            return (values[0] as! A, values[1] as! B, values[2] as! C)
+        })
+    }
+
+    static func four<A, B, C, D>(_ a: Signal<A>, _ b: Signal<B>, _ c: Signal<C>, _ d: Signal<D>) -> Signal<(A, B, C, D)> {
+        let upstreams = [ a.typeErase(), b.typeErase(), c.typeErase(), d.typeErase() ]
+        return Combination<(A, B, C, D)>(upstreams: upstreams, transform: { values in
+            return (values[0] as! A, values[1] as! B, values[2] as! C, values[3] as! D)
+        })
+    }
+
+    override func addListener<L>(_ listener: L, handler: @escaping (L, Tuple) -> Void) -> SignalToken where L : AnyObject {
+        let tokens = upstreams.enumerated().map { index, upstream in
+            return upstream.addListener(listener, handler: { [weak self] l, element in
+                guard let tuple = self?.mapValueIfAllPresent(element, at: index) else { return }
+                handler(l, tuple)
+            })
+        }
+
+        return SignalTokenBag(tokens: tokens)
+    }
+
+    private func mapValueIfAllPresent(_ value: Any, at index: Int) -> Tuple? {
+        elements[index] = value
+        let existingElements = elements.filter { $0 != nil }.map { $0! }
+        if existingElements.count == upstreams.count {
+            return transform(existingElements)
+        }
+        return nil
+    }
+}
