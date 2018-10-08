@@ -32,7 +32,7 @@ private final class AppSession: Session {
     init(id: String) {
         self.id = id
 
-        refreshed = _refreshed.buffer(count: 3)
+        refreshed = _refreshed.replay(count: 3)
         ended = _ended.map { _ in () }
     }
 }

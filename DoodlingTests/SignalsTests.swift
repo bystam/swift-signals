@@ -76,8 +76,8 @@ class SignalsTests: XCTestCase {
         XCTAssertEqual(values, [1, 2, 3, 4])
     }
 
-    func testBuffer_0() {
-        let signal = source.buffer(count: 0)
+    func testReplay_0() {
+        let signal = source.replay(count: 0)
         source.publish(1337)
         source.publish(1338)
         source.publish(1339)
@@ -90,8 +90,8 @@ class SignalsTests: XCTestCase {
         XCTAssertEqual(values, [])
     }
 
-    func testBuffer_1() {
-        let signal = source.buffer(count: 1)
+    func testReplay_1() {
+        let signal = source.replay(count: 1)
         source.publish(1337)
         source.publish(1338)
         source.publish(1339)
@@ -104,8 +104,8 @@ class SignalsTests: XCTestCase {
         XCTAssertEqual(values, [1340])
     }
 
-    func testBuffer_3() {
-        let signal = source.buffer(count: 3)
+    func testReplay_3() {
+        let signal = source.replay(count: 3)
         source.publish(1337)
         source.publish(1338)
         source.publish(1339)
@@ -118,8 +118,8 @@ class SignalsTests: XCTestCase {
         XCTAssertEqual(values, [1338, 1339, 1340])
     }
 
-    func testBuffer_beforeAndAfter() {
-        let signal = source.buffer(count: 1)
+    func testReplay_beforeAndAfter() {
+        let signal = source.replay(count: 1)
         source.publish(1337)
         source.publish(1338)
         source.publish(1339)
@@ -133,8 +133,8 @@ class SignalsTests: XCTestCase {
         XCTAssertEqual(values, [1339, 1340])
     }
 
-    func testBuffer_twoSubscribers() {
-        let signal = source.buffer(count: 2)
+    func testReplay_twoSubscribers() {
+        let signal = source.replay(count: 2)
         var values1: [Int] = []
         var values2: [Int] = []
 
@@ -503,7 +503,7 @@ class SignalsTests: XCTestCase {
         let signal = Signal<String>
             .combine(source1, source2, source3, with: { min($0, $1, $2) })
             .distinct()
-            .buffer(count: 2)
+            .replay(count: 2)
             .map { $0.uppercased() }
 
         var values: [String] = []
@@ -548,7 +548,7 @@ class SignalsTests: XCTestCase {
         let signal = Signal<String>
             .combine(source1, source2, source3, with: { min($0, $1, $2) })
             .distinct()
-            .buffer(count: 2)
+            .replay(count: 2)
             .map { $0.count }
 
         var token: SignalToken?
@@ -569,7 +569,7 @@ class SignalsTests: XCTestCase {
     }
 
     func testUnsubscribe_buffer() {
-        let signal = source.buffer(count: 3)
+        let signal = source.replay(count: 3)
         source.publish(1337)
 
         var token: SignalToken?

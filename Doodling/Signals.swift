@@ -84,7 +84,7 @@ extension Signal {
         return Transform(upstream: self, mapper: mapper)
     }
 
-    func buffer(count: Int) -> Signal<Element> {
+    func replay(count: Int) -> Signal<Element> {
         return Buffer(upstream: self, count: count)
     }
 }
