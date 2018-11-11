@@ -3,7 +3,7 @@
 //
 
 import XCTest
-@testable import Doodling
+@testable import Signals
 
 class SignalsTests: XCTestCase {
 

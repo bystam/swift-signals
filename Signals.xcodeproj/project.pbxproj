@@ -9,11 +9,10 @@
 /* Begin PBXBuildFile section */
 		EBB2FFE42167BB4B009E5B4C /* SignalsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB2FFE32167BB4B009E5B4C /* SignalsTests.swift */; };
 		EBFA41C52166A13100932586 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA41C42166A13100932586 /* AppDelegate.swift */; };
-		EBFA41C72166A13100932586 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA41C62166A13100932586 /* ViewController.swift */; };
-		EBFA41CA2166A13100932586 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBFA41C82166A13100932586 /* Main.storyboard */; };
 		EBFA41CC2166A13200932586 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBFA41CB2166A13200932586 /* Assets.xcassets */; };
 		EBFA41CF2166A13200932586 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBFA41CD2166A13200932586 /* LaunchScreen.storyboard */; };
-		EBFA41E62166A14A00932586 /* Signals.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA41E52166A14A00932586 /* Signals.swift */; };
+		EBFAE4B62198907E001D901F /* Signals.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAE4B52198907E001D901F /* Signals.swift */; };
+		EBFAE4B821989127001D901F /* Signals+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAE4B721989127001D901F /* Signals+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,16 +27,15 @@
 
 /* Begin PBXFileReference section */
 		EBB2FFE32167BB4B009E5B4C /* SignalsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalsTests.swift; sourceTree = "<group>"; };
-		EBFA41C12166A13100932586 /* Doodling.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Doodling.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBFA41C12166A13100932586 /* Signals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Signals.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBFA41C42166A13100932586 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EBFA41C62166A13100932586 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		EBFA41C92166A13100932586 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EBFA41CB2166A13200932586 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EBFA41CE2166A13200932586 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EBFA41D02166A13200932586 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EBFA41D52166A13200932586 /* DoodlingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DoodlingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EBFA41D52166A13200932586 /* SignalsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SignalsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBFA41DB2166A13200932586 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EBFA41E52166A14A00932586 /* Signals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Signals.swift; path = Doodling/Signals.swift; sourceTree = SOURCE_ROOT; };
+		EBFAE4B52198907E001D901F /* Signals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Signals.swift; sourceTree = "<group>"; };
+		EBFAE4B721989127001D901F /* Signals+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signals+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -61,8 +59,8 @@
 		EBFA41B82166A13100932586 = {
 			isa = PBXGroup;
 			children = (
-				EBFA41C32166A13100932586 /* Doodling */,
-				EBFA41D82166A13200932586 /* DoodlingTests */,
+				EBFA41C32166A13100932586 /* Signals */,
+				EBFA41D82166A13200932586 /* SignalsTests */,
 				EBFA41C22166A13100932586 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -70,39 +68,38 @@
 		EBFA41C22166A13100932586 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				EBFA41C12166A13100932586 /* Doodling.app */,
-				EBFA41D52166A13200932586 /* DoodlingTests.xctest */,
+				EBFA41C12166A13100932586 /* Signals.app */,
+				EBFA41D52166A13200932586 /* SignalsTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EBFA41C32166A13100932586 /* Doodling */ = {
+		EBFA41C32166A13100932586 /* Signals */ = {
 			isa = PBXGroup;
 			children = (
 				EBFA41C42166A13100932586 /* AppDelegate.swift */,
-				EBFA41C62166A13100932586 /* ViewController.swift */,
-				EBFA41C82166A13100932586 /* Main.storyboard */,
 				EBFA41CB2166A13200932586 /* Assets.xcassets */,
 				EBFA41CD2166A13200932586 /* LaunchScreen.storyboard */,
 				EBFA41D02166A13200932586 /* Info.plist */,
 				EBFA41E42166A13900932586 /* Signals */,
 			);
-			path = Doodling;
+			path = Signals;
 			sourceTree = "<group>";
 		};
-		EBFA41D82166A13200932586 /* DoodlingTests */ = {
+		EBFA41D82166A13200932586 /* SignalsTests */ = {
 			isa = PBXGroup;
 			children = (
 				EBB2FFE32167BB4B009E5B4C /* SignalsTests.swift */,
 				EBFA41DB2166A13200932586 /* Info.plist */,
 			);
-			path = DoodlingTests;
+			path = SignalsTests;
 			sourceTree = "<group>";
 		};
 		EBFA41E42166A13900932586 /* Signals */ = {
 			isa = PBXGroup;
 			children = (
-				EBFA41E52166A14A00932586 /* Signals.swift */,
+				EBFAE4B52198907E001D901F /* Signals.swift */,
+				EBFAE4B721989127001D901F /* Signals+Extension.swift */,
 			);
 			path = Signals;
 			sourceTree = "<group>";
@@ -110,9 +107,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		EBFA41C02166A13100932586 /* Doodling */ = {
+		EBFA41C02166A13100932586 /* Signals */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EBFA41DE2166A13200932586 /* Build configuration list for PBXNativeTarget "Doodling" */;
+			buildConfigurationList = EBFA41DE2166A13200932586 /* Build configuration list for PBXNativeTarget "Signals" */;
 			buildPhases = (
 				EBFA41BD2166A13100932586 /* Sources */,
 				EBFA41BE2166A13100932586 /* Frameworks */,
@@ -122,14 +119,14 @@
 			);
 			dependencies = (
 			);
-			name = Doodling;
+			name = Signals;
 			productName = Doodling;
-			productReference = EBFA41C12166A13100932586 /* Doodling.app */;
+			productReference = EBFA41C12166A13100932586 /* Signals.app */;
 			productType = "com.apple.product-type.application";
 		};
-		EBFA41D42166A13200932586 /* DoodlingTests */ = {
+		EBFA41D42166A13200932586 /* SignalsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = EBFA41E12166A13200932586 /* Build configuration list for PBXNativeTarget "DoodlingTests" */;
+			buildConfigurationList = EBFA41E12166A13200932586 /* Build configuration list for PBXNativeTarget "SignalsTests" */;
 			buildPhases = (
 				EBFA41D12166A13200932586 /* Sources */,
 				EBFA41D22166A13200932586 /* Frameworks */,
@@ -140,9 +137,9 @@
 			dependencies = (
 				EBFA41D72166A13200932586 /* PBXTargetDependency */,
 			);
-			name = DoodlingTests;
+			name = SignalsTests;
 			productName = DoodlingTests;
-			productReference = EBFA41D52166A13200932586 /* DoodlingTests.xctest */;
+			productReference = EBFA41D52166A13200932586 /* SignalsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
@@ -164,7 +161,7 @@
 					};
 				};
 			};
-			buildConfigurationList = EBFA41BC2166A13100932586 /* Build configuration list for PBXProject "Doodling" */;
+			buildConfigurationList = EBFA41BC2166A13100932586 /* Build configuration list for PBXProject "Signals" */;
 			compatibilityVersion = "Xcode 9.3";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -177,8 +174,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				EBFA41C02166A13100932586 /* Doodling */,
-				EBFA41D42166A13200932586 /* DoodlingTests */,
+				EBFA41C02166A13100932586 /* Signals */,
+				EBFA41D42166A13200932586 /* SignalsTests */,
 			);
 		};
 /* End PBXProject section */
@@ -190,7 +187,6 @@
 			files = (
 				EBFA41CF2166A13200932586 /* LaunchScreen.storyboard in Resources */,
 				EBFA41CC2166A13200932586 /* Assets.xcassets in Resources */,
-				EBFA41CA2166A13100932586 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -208,9 +204,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EBFA41C72166A13100932586 /* ViewController.swift in Sources */,
+				EBFAE4B821989127001D901F /* Signals+Extension.swift in Sources */,
 				EBFA41C52166A13100932586 /* AppDelegate.swift in Sources */,
-				EBFA41E62166A14A00932586 /* Signals.swift in Sources */,
+				EBFAE4B62198907E001D901F /* Signals.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,20 +223,12 @@
 /* Begin PBXTargetDependency section */
 		EBFA41D72166A13200932586 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = EBFA41C02166A13100932586 /* Doodling */;
+			target = EBFA41C02166A13100932586 /* Signals */;
 			targetProxy = EBFA41D62166A13200932586 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		EBFA41C82166A13100932586 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				EBFA41C92166A13100932586 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		EBFA41CD2166A13200932586 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -373,12 +361,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Doodling/Info.plist;
+				INFOPLIST_FILE = Signals/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = frallan.Doodling;
+				PRODUCT_BUNDLE_IDENTIFIER = frallan.Signals;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -390,12 +378,12 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = Doodling/Info.plist;
+				INFOPLIST_FILE = Signals/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = frallan.Doodling;
+				PRODUCT_BUNDLE_IDENTIFIER = frallan.Signals;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -408,17 +396,17 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = DoodlingTests/Info.plist;
+				INFOPLIST_FILE = SignalsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = frallan.DoodlingTests;
+				PRODUCT_BUNDLE_IDENTIFIER = frallan.SignalsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Doodling.app/Doodling";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Signals.app/Signals";
 			};
 			name = Debug;
 		};
@@ -428,24 +416,24 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = DoodlingTests/Info.plist;
+				INFOPLIST_FILE = SignalsTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = frallan.DoodlingTests;
+				PRODUCT_BUNDLE_IDENTIFIER = frallan.SignalsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Doodling.app/Doodling";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Signals.app/Signals";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		EBFA41BC2166A13100932586 /* Build configuration list for PBXProject "Doodling" */ = {
+		EBFA41BC2166A13100932586 /* Build configuration list for PBXProject "Signals" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EBFA41DC2166A13200932586 /* Debug */,
@@ -454,7 +442,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EBFA41DE2166A13200932586 /* Build configuration list for PBXNativeTarget "Doodling" */ = {
+		EBFA41DE2166A13200932586 /* Build configuration list for PBXNativeTarget "Signals" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EBFA41DF2166A13200932586 /* Debug */,
@@ -463,7 +451,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		EBFA41E12166A13200932586 /* Build configuration list for PBXNativeTarget "DoodlingTests" */ = {
+		EBFA41E12166A13200932586 /* Build configuration list for PBXNativeTarget "SignalsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				EBFA41E22166A13200932586 /* Debug */,

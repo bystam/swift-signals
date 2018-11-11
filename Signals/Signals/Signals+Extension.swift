@@ -4,77 +4,6 @@
 
 import Foundation
 
-protocol SignalToken {}
-
-extension SignalToken {
-    func bindLifetime(to bag: SignalTokenBag) {
-        bag.tokens.append(self)
-    }
-}
-
-final class SignalTokenBag: SignalToken {
-    fileprivate var tokens: [SignalToken]
-
-    init() {
-        self.tokens = []
-    }
-
-    fileprivate init(tokens: [SignalToken]) {
-        self.tokens = tokens
-    }
-}
-
-private final class SourceToken: SignalToken {
-    
-    private let unsubscribe: () -> Void
-    
-    fileprivate init(_ unsubscribe: @escaping () -> Void) {
-        self.unsubscribe = unsubscribe
-    }
-    
-    deinit {
-        unsubscribe()
-    }
-}
-
-class Signal<Element> {
-
-    fileprivate init() {}
-
-    func addListener<L: AnyObject>(_ listener: L, handler: @escaping (L, Element) -> Void) -> SignalToken {
-        fatalError()
-    }
-}
-
-final class Source<Element>: Signal<Element> {
-
-    private typealias Handler = (Element) -> Void
-
-    private var listeners: [UUID: Handler] = [:]
-
-    override init() {}
-
-    override func addListener<L>(_ listener: L, handler: @escaping (L, Element) -> Void) -> SignalToken where L : AnyObject {
-        let id = UUID()
-
-        listeners[id] = { [weak self, weak listener] element in
-            guard let listener = listener else {
-                self?.listeners[id] = nil
-                return
-            }
-            handler(listener, element)
-        }
-
-        return SourceToken { [weak self] in
-            self?.listeners[id] = nil
-        }
-    }
-
-    func publish(_ element: Element) {
-        listeners.values.forEach { $0(element) }
-    }
-}
-
 extension Signal {
     func filter(_ predicate: @escaping (Element) -> Bool) -> Signal<Element> {
         return Filter(upstream: self, predicate: predicate)
@@ -86,6 +15,10 @@ extension Signal {
 
     func replay(count: Int) -> Signal<Element> {
         return Buffer(upstream: self, count: count)
+    }
+
+    func mapAndMerge<DownstreamElement>(_ transform: @escaping (Element) -> Signal<DownstreamElement>) -> Signal<DownstreamElement> {
+        fatalError()
     }
 }
 
