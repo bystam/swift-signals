@@ -10,8 +10,15 @@ class Signal<Element> {
 
     init() {}
 
-    func addListener<L: AnyObject>(_ listener: L, handler: @escaping (L, Element) -> Void) -> SignalToken {
+    func listen(_ handler: @escaping (Element) -> Void) -> SignalToken {
         fatalError()
+    }
+
+    final func listen<L: AnyObject>(with guarded: L, _ handler: @escaping (L, Element) -> Void) -> SignalToken {
+        return listen { [weak guarded] element in
+            guard let guarded = guarded else { return }
+            handler(guarded, element)
+        }
     }
 }
 
@@ -21,7 +28,7 @@ enum SourceOption {
 
 final class Source<Element>: Signal<Element> {
 
-    private typealias Handler = (Element) -> Bool
+    private typealias Handler = (Element) -> Void
 
     private let options: Set<SourceOption>
     private var order: [UUID] = []
@@ -31,18 +38,10 @@ final class Source<Element>: Signal<Element> {
         self.options = options
     }
 
-    override func addListener<L>(_ listener: L, handler: @escaping (L, Element) -> Void) -> SignalToken where L : AnyObject {
+    override func listen(_ handler: @escaping (Element) -> Void) -> SignalToken {
         let id = UUID()
-
         order.append(id)
-        handlers[id] = { [weak self, weak listener] element in
-            guard let listener = listener else {
-                self?.removeListener(withID: id)
-                return false
-            }
-            handler(listener, element)
-            return true
-        }
+        handlers[id] = handler
 
         return SourceToken { [weak self] in
             self?.removeListener(withID: id)
@@ -50,11 +49,13 @@ final class Source<Element>: Signal<Element> {
     }
 
     func publish(_ element: Element) {
-        for id in order.reversed() {
-            let isHandled = handlers[id]?(element) ?? false
-            if isHandled && options.contains(.publishOnlyToLatestListener) {
-                break
-            }
+        if options.contains(.publishOnlyToLatestListener) {
+            order.last
+                .flatMap { handlers[$0] }?(element)
+        } else {
+            order.reversed()
+                .compactMap { handlers[$0] }
+                .forEach { $0(element) }
         }
     }
 

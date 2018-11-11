@@ -4,13 +4,64 @@
 
 import Foundation
 
+protocol SignalOperator {
+    associatedtype Input
+    associatedtype Output
+
+    func onCreate(_ upstream: Signal<Input>)
+    func lift(_ handler: @escaping (Output) -> Void) -> (Input) -> Void
+}
+
+extension SignalOperator {
+    func onCreate(_ signal: Signal<Input>) {}
+}
+
+final class OperandSignal<Operator: SignalOperator>: Signal<Operator.Output> {
+
+    private let upstream: Signal<Operator.Input>
+    private let op: Operator
+
+    init(upstream: Signal<Operator.Input>, op: Operator) {
+        self.upstream = upstream
+        self.op = op
+        super.init()
+        op.onCreate(upstream)
+    }
+
+    override func listen(_ handler: @escaping (Operator.Output) -> Void) -> SignalToken {
+        return upstream.listen(op.lift(handler))
+    }
+}
+
+final class SimpleOperator<Input, Output>: SignalOperator {
+    private let op: (Input, @escaping (Output) -> Void) -> Void
+    init(op: @escaping (Input, @escaping (Output) -> Void) -> Void) { self.op = op }
+
+    func lift(_ handler: @escaping (Output) -> Void) -> (Input) -> Void {
+        let op = self.op
+        return { (inElement: Input) in
+            op(inElement, { (outElement: Output) in
+                handler(outElement)
+            })
+        }
+    }
+}
+
 extension Signal {
     func filter(_ predicate: @escaping (Element) -> Bool) -> Signal<Element> {
-        return Filter(upstream: self, predicate: predicate)
+//        return Filter(upstream: self, predicate: predicate)
+        return OperandSignal(upstream: self, op: SimpleOperator { element, callback in
+            if predicate(element) {
+                callback(element)
+            }
+        })
     }
 
     func map<DownstreamElement>(_ mapper: @escaping (Element) -> DownstreamElement) -> Signal<DownstreamElement> {
-        return Transform(upstream: self, mapper: mapper)
+//        return Transform(upstream: self, mapper: mapper)
+        return OperandSignal(upstream: self, op: SimpleOperator { element, callback in
+            callback(mapper(element))
+        })
     }
 
     func replay(count: Int) -> Signal<Element> {
@@ -24,7 +75,21 @@ extension Signal {
 
 extension Signal where Element: Equatable {
     func distinct() -> Signal<Element> {
-        return Distinct(upstream: self)
+//        return Distinct(upstream: self)
+//        var previous: Element? = nil
+        return OperandSignal(upstream: self, op: DistinctOperator())
+    }
+
+    private struct DistinctOperator: SignalOperator {
+
+        func lift(_ handler: @escaping (Element) -> Void) -> (Element) -> Void {
+            var previous: Element? = nil
+            return { element in
+                guard element != previous else { return }
+                previous = element
+                handler(element)
+            }
+        }
     }
 }
 
@@ -93,13 +158,13 @@ private final class Filter<Element>: Signal<Element> {
         self.predicate = predicate
     }
 
-    override func addListener<L>(_ listener: L, handler: @escaping (L, Element) -> Void) -> SignalToken where L : AnyObject {
+    override func listen(_ handler: @escaping (Element) -> Void) -> SignalToken {
         let predicate = self.predicate
-        return upstream.addListener(listener, handler: { (l, element) in
+        return upstream.listen { element in
             if predicate(element) {
-                handler(l, element)
+                handler(element)
             }
-        })
+        }
     }
 }
 
@@ -114,11 +179,11 @@ private final class Transform<Element, UpstreamElement>: Signal<Element> {
         super.init()
     }
 
-    override func addListener<L>(_ listener: L, handler: @escaping (L, Element) -> Void) -> SignalToken where L : AnyObject {
+    override func listen(_ handler: @escaping (Element) -> Void) -> SignalToken {
         let mapper = self.mapper
-        return upstream.addListener(listener, handler: { (l, element) in
-            handler(l, mapper(element))
-        })
+        return upstream.listen { element in
+            handler(mapper(element))
+        }
     }
 }
 
@@ -136,21 +201,19 @@ private final class Buffer<Element>: Signal<Element> {
 
         super.init()
 
-        upstreamToken = upstream.addListener(self) { this, element in
+        upstreamToken = upstream.listen(with: self, { this, element in
             this.buffer.append(element)
             if this.buffer.count > this.count {
                 this.buffer.removeFirst()
             }
-        }
+        })
     }
 
-    override func addListener<L>(_ listener: L, handler: @escaping (L, Element) -> Void) -> SignalToken where L : AnyObject {
+    override func listen(_ handler: @escaping (Element) -> Void) -> SignalToken {
         buffer.forEach { element in
-            handler(listener, element)
+            handler(element)
         }
-        return upstream.addListener(listener, handler: { l, element in
-            handler(l, element)
-        })
+        return upstream.listen(handler)
     }
 }
 
@@ -163,15 +226,13 @@ private final class Distinct<Element: Equatable>: Signal<Element> {
         super.init()
     }
 
-    override func addListener<L>(_ listener: L, handler: @escaping (L, Element) -> Void) -> SignalToken where L : AnyObject {
+    override func listen(_ handler: @escaping (Element) -> Void) -> SignalToken {
         var previous: Element? = nil
-        return upstream.addListener(listener, handler: { (l, element) in
-            guard element != previous else {
-                return
-            }
+        return upstream.listen { element in
+            guard element != previous else { return }
             previous = element
-            handler(l, element)
-        })
+            handler(element)
+        }
     }
 }
 
@@ -183,9 +244,9 @@ private final class Merge<Element>: Signal<Element> {
         self.upstreams = upstreams
     }
 
-    override func addListener<L>(_ listener: L, handler: @escaping (L, Element) -> Void) -> SignalToken where L : AnyObject {
+    override func listen(_ handler: @escaping (Element) -> Void) -> SignalToken {
         let tokens = upstreams.map { upstream in
-            return upstream.addListener(listener, handler: handler)
+            return upstream.listen(handler)
         }
         return SignalTokenBag(tokens: tokens)
     }
@@ -213,22 +274,21 @@ private final class Combinator<Element>: Signal<Element> {
         super.init()
 
         let tokens = upstreams.enumerated().map { index, upstream in
-            return upstream.addListener(self, handler: { [weak self] l, element in
-                guard let self = self else { return }
-                _ = self.generateValueIfFilled(inserting: element, at: index, in: &self.preListeningElements)
+            return upstream.listen(with: self, { this, element in
+                _ = this.generateValueIfFilled(inserting: element, at: index, in: &this.preListeningElements)
             })
         }
 
         upstreamToken = SignalTokenBag(tokens: tokens)
     }
 
-    override func addListener<L>(_ listener: L, handler: @escaping (L, Element) -> Void) -> SignalToken where L : AnyObject {
+    override func listen(_ handler: @escaping (Element) -> Void) -> SignalToken {
         var elements: [Any?] = preListeningElements
 
         let tokens = upstreams.enumerated().map { index, upstream in
-            return upstream.addListener(listener, handler: { [weak self] l, element in
-                guard let element = self?.generateValueIfFilled(inserting: element, at: index, in: &elements) else { return }
-                handler(l, element)
+            return upstream.listen(with: self, { this, element in
+                guard let element = this.generateValueIfFilled(inserting: element, at: index, in: &elements) else { return }
+                handler(element)
             })
         }
 

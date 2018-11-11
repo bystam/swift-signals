@@ -24,7 +24,7 @@ class SignalsTests: XCTestCase {
         let signal = source
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source.publish(1337)
@@ -37,7 +37,7 @@ class SignalsTests: XCTestCase {
         source.publish(1337)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         XCTAssertEqual(values, [])
@@ -47,10 +47,10 @@ class SignalsTests: XCTestCase {
         let signal = source
 
         signal
-            .addListener(self, handler: { this, val in this.values.append(val + 1) })
+            .listen(with: self, { this, val in this.values.append(val + 1) })
             .bindLifetime(to: bag)
         signal
-            .addListener(self, handler: { this, val in this.values.append(val + 2) })
+            .listen(with: self, { this, val in this.values.append(val + 2) })
             .bindLifetime(to: bag)
 
         source.publish(1337)
@@ -62,10 +62,10 @@ class SignalsTests: XCTestCase {
         let signal = Source<Int>(options: [.publishOnlyToLatestListener])
 
         signal
-            .addListener(self, handler: { this, val in this.values.append(val + 1) })
+            .listen(with: self, { this, val in this.values.append(val + 1) })
             .bindLifetime(to: bag)
         signal
-            .addListener(self, handler: { this, val in this.values.append(val + 2) })
+            .listen(with: self, { this, val in this.values.append(val + 2) })
             .bindLifetime(to: bag)
 
         signal.publish(1337)
@@ -78,7 +78,7 @@ class SignalsTests: XCTestCase {
             .filter { $0 < 5 }
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source.publish(1)
@@ -95,7 +95,7 @@ class SignalsTests: XCTestCase {
             .map { string in string.count }
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source.publish(1)
@@ -114,7 +114,7 @@ class SignalsTests: XCTestCase {
         source.publish(1340)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         XCTAssertEqual(values, [])
@@ -128,7 +128,7 @@ class SignalsTests: XCTestCase {
         source.publish(1340)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         XCTAssertEqual(values, [1340])
@@ -142,7 +142,7 @@ class SignalsTests: XCTestCase {
         source.publish(1340)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         XCTAssertEqual(values, [1338, 1339, 1340])
@@ -155,7 +155,7 @@ class SignalsTests: XCTestCase {
         source.publish(1339)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source.publish(1340)
@@ -172,13 +172,13 @@ class SignalsTests: XCTestCase {
         source.publish(1338)
 
         signal
-            .addListener(self, handler: { _, e in values1.append(e) })
+            .listen(with: self, { _, e in values1.append(e) })
             .bindLifetime(to: bag)
 
         source.publish(1339)
 
         signal
-            .addListener(self, handler: { _, e in values2.append(e) })
+            .listen(with: self, { _, e in values2.append(e) })
             .bindLifetime(to: bag)
 
         source.publish(1340)
@@ -191,7 +191,7 @@ class SignalsTests: XCTestCase {
         let signal = source.distinct()
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source.publish(1337)
@@ -207,13 +207,13 @@ class SignalsTests: XCTestCase {
         var values2: [Int] = []
 
         signal
-            .addListener(self, handler: { _, e in values1.append(e) })
+            .listen(with: self, { _, e in values1.append(e) })
             .bindLifetime(to: bag)
 
         source.publish(1337)
 
         signal
-            .addListener(self, handler: { _, e in values2.append(e) })
+            .listen(with: self, { _, e in values2.append(e) })
             .bindLifetime(to: bag)
 
         source.publish(1337)
@@ -226,7 +226,7 @@ class SignalsTests: XCTestCase {
         let signal = source.distinct()
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source.publish(1337)
@@ -249,7 +249,7 @@ class SignalsTests: XCTestCase {
         source1.publish(3)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         XCTAssertEqual(values, [])
@@ -261,7 +261,7 @@ class SignalsTests: XCTestCase {
         let signal = Signal<Int>.merge([source1, source2])
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source1.publish(1)
@@ -277,7 +277,7 @@ class SignalsTests: XCTestCase {
         let signal = Signal<Int>.combine(source1, source2, with: +)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source1.publish(1)
@@ -291,7 +291,7 @@ class SignalsTests: XCTestCase {
         let signal = Signal<Int>.combine(source1, source2, with: +)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source1.publish(1)
@@ -308,7 +308,7 @@ class SignalsTests: XCTestCase {
         source1.publish(1)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source2.publish(2)
@@ -322,7 +322,7 @@ class SignalsTests: XCTestCase {
         let signal = Signal<Int>.combine(source1, source2, with: +)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source1.publish(1)
@@ -343,7 +343,7 @@ class SignalsTests: XCTestCase {
                                            with: +)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source1.publish(1)
@@ -363,7 +363,7 @@ class SignalsTests: XCTestCase {
                                            with: +)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source1.publish(1)
@@ -384,7 +384,7 @@ class SignalsTests: XCTestCase {
                                            with: +)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source1.publish(1)
@@ -408,11 +408,11 @@ class SignalsTests: XCTestCase {
         var values2: [Int] = []
 
         signal
-            .addListener(self, handler: { _, e in values1.append(e) })
+            .listen(with: self, { _, e in values1.append(e) })
             .bindLifetime(to: bag)
 
         signal
-            .addListener(self, handler: { _, e in values2.append(e) })
+            .listen(with: self, { _, e in values2.append(e) })
             .bindLifetime(to: bag)
 
         source1.publish(1)
@@ -430,7 +430,7 @@ class SignalsTests: XCTestCase {
         let signal = Signal<Int>.zip(source1, source2, with: +)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source1.publish(1)
@@ -447,7 +447,7 @@ class SignalsTests: XCTestCase {
         source2.publish(1)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source1.publish(1)
@@ -461,7 +461,7 @@ class SignalsTests: XCTestCase {
         let signal = Signal<Int>.zip(source1, source2, with: +)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source1.publish(1)
@@ -476,7 +476,7 @@ class SignalsTests: XCTestCase {
         let signal = Signal<Int>.zip(source1, source2, with: +)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source1.publish(1)
@@ -492,7 +492,7 @@ class SignalsTests: XCTestCase {
         let signal = Signal<Int>.zip(source1, source2, with: +)
 
         signal
-            .addListener(self, handler: placeInValues)
+            .listen(with: self, placeInValues)
             .bindLifetime(to: bag)
 
         source1.publish(1)
@@ -512,11 +512,11 @@ class SignalsTests: XCTestCase {
         var values2: [Int] = []
 
         signal
-            .addListener(self, handler: { _, e in values1.append(e) })
+            .listen(with: self, { _, e in values1.append(e) })
             .bindLifetime(to: bag)
 
         signal
-            .addListener(self, handler: { _, e in values2.append(e) })
+            .listen(with: self, { _, e in values2.append(e) })
             .bindLifetime(to: bag)
 
         source1.publish(1)
@@ -545,7 +545,7 @@ class SignalsTests: XCTestCase {
         source3.publish("ace")
 
         signal
-            .addListener(self, handler: { values.append($1) })
+            .listen(with: self, { values.append($1) })
             .bindLifetime(to: bag)
 
         source2.publish("aaa")
@@ -559,7 +559,7 @@ class SignalsTests: XCTestCase {
         var token: SignalToken?
         autoreleasepool {
             token = signal
-                .addListener(self, handler: placeInValues)
+                .listen(with: self, placeInValues)
 
             source.publish(1337)
 
@@ -584,7 +584,7 @@ class SignalsTests: XCTestCase {
         var token: SignalToken?
         autoreleasepool {
             token = signal
-                .addListener(self, handler: placeInValues)
+                .listen(with: self, placeInValues)
 
             source1.publish("lemon")
             source2.publish("apple")
@@ -605,7 +605,7 @@ class SignalsTests: XCTestCase {
         var token: SignalToken?
         autoreleasepool {
             token = signal
-                .addListener(self, handler: placeInValues)
+                .listen(with: self, placeInValues)
 
             source.publish(1338)
 
@@ -625,7 +625,7 @@ class SignalsTests: XCTestCase {
         var token: SignalToken?
         autoreleasepool {
             token = signal
-                .addListener(self, handler: placeInValues)
+                .listen(with: self, placeInValues)
 
             source1.publish(2)
             source2.publish(3)
@@ -651,7 +651,7 @@ class SignalsTests: XCTestCase {
         var token: SignalToken?
         autoreleasepool {
             token = signal
-                .addListener(self, handler: placeInValues)
+                .listen(with: self, placeInValues)
 
             source1.publish(2)
             source2.publish(3)
@@ -673,7 +673,7 @@ class SignalsTests: XCTestCase {
         autoreleasepool {
             listener = NSObject()
             signal
-                .addListener(listener!, handler: { self.values.append($1) })
+                .listen(with: listener!, { self.values.append($1) })
                 .bindLifetime(to: bag)
 
             source.publish(1337)
