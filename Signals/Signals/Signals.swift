@@ -21,9 +21,10 @@ enum SourceOption {
 
 final class Source<Element>: Signal<Element> {
 
-    private typealias Handler = (Element) -> Void
+    private typealias Handler = (Element) -> Bool
 
     private let options: Set<SourceOption>
+    private var order: [UUID] = []
     private var handlers: [UUID: Handler] = [:]
 
     init(options: Set<SourceOption> = []) {
@@ -33,21 +34,33 @@ final class Source<Element>: Signal<Element> {
     override func addListener<L>(_ listener: L, handler: @escaping (L, Element) -> Void) -> SignalToken where L : AnyObject {
         let id = UUID()
 
+        order.append(id)
         handlers[id] = { [weak self, weak listener] element in
             guard let listener = listener else {
-                self?.handlers[id] = nil
-                return
+                self?.removeListener(withID: id)
+                return false
             }
             handler(listener, element)
+            return true
         }
 
         return SourceToken { [weak self] in
-            self?.handlers[id] = nil
+            self?.removeListener(withID: id)
         }
     }
 
     func publish(_ element: Element) {
-        handlers.values.forEach { $0(element) }
+        for id in order.reversed() {
+            let isHandled = handlers[id]?(element) ?? false
+            if isHandled && options.contains(.publishOnlyToLatestListener) {
+                break
+            }
+        }
+    }
+
+    private func removeListener(withID id: UUID) {
+        handlers[id] = nil
+        order.removeAll(where: { $0 == id })
     }
 }
 

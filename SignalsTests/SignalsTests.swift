@@ -43,6 +43,36 @@ class SignalsTests: XCTestCase {
         XCTAssertEqual(values, [])
     }
 
+    func testSource_orderOfListenersIsBackwards() {
+        let signal = source
+
+        signal
+            .addListener(self, handler: { this, val in this.values.append(val + 1) })
+            .bindLifetime(to: bag)
+        signal
+            .addListener(self, handler: { this, val in this.values.append(val + 2) })
+            .bindLifetime(to: bag)
+
+        source.publish(1337)
+
+        XCTAssertEqual(values, [1339, 1338])
+    }
+
+    func testSource_publishOnlyToLatestListener() {
+        let signal = Source<Int>(options: [.publishOnlyToLatestListener])
+
+        signal
+            .addListener(self, handler: { this, val in this.values.append(val + 1) })
+            .bindLifetime(to: bag)
+        signal
+            .addListener(self, handler: { this, val in this.values.append(val + 2) })
+            .bindLifetime(to: bag)
+
+        signal.publish(1337)
+
+        XCTAssertEqual(values, [1339])
+    }
+
     func testFilter() {
         let signal = source
             .filter { $0 < 5 }
