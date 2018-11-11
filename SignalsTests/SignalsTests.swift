@@ -73,6 +73,29 @@ class SignalsTests: XCTestCase {
         XCTAssertEqual(values, [1339])
     }
 
+    func testJust_one() {
+        let signal = Signal<Int>.just(5)
+
+        signal
+            .listen(with: self, placeInValues)
+            .bindLifetime(to: bag)
+
+        XCTAssertEqual(values, [5])
+    }
+
+    func testJust_repeating() {
+        let signal = Signal<Int>.just(5)
+
+        signal
+            .listen(with: self, placeInValues)
+            .bindLifetime(to: bag)
+        signal
+            .listen(with: self, placeInValues)
+            .bindLifetime(to: bag)
+
+        XCTAssertEqual(values, [5, 5])
+    }
+
     func testFilter() {
         let signal = source
             .filter { $0 < 5 }
@@ -237,6 +260,40 @@ class SignalsTests: XCTestCase {
         source.publish(1337)
 
         XCTAssertEqual(values, [1337, 1338, 1337])
+    }
+
+    func testMergeMap_simple() {
+        let signal = source
+            .mergeMap { int in Signal.just(int * 10) }
+
+        signal
+            .listen(with: self, placeInValues)
+            .bindLifetime(to: bag)
+
+        source.publish(1)
+        source.publish(2)
+        source.publish(3)
+
+        XCTAssertEqual(values, [10, 20, 30])
+    }
+
+    func testMergeMap_doubleAsync() {
+        let secondSource = Source<Int>()
+        let signal = source
+            .mergeMap { _ in secondSource }
+
+        signal
+            .listen(with: self, placeInValues)
+            .bindLifetime(to: bag)
+
+        secondSource.publish(1)
+        XCTAssertEqual(values, [])
+        source.publish(2)
+        XCTAssertEqual(values, [])
+        secondSource.publish(3)
+        secondSource.publish(4)
+        secondSource.publish(5)
+        XCTAssertEqual(values, [3, 4, 5])
     }
 
     func testMerge_noElements_beforeListening() {

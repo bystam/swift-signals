@@ -19,6 +19,7 @@
 		EBFAE4C22198BFA6001D901F /* Signal+Merge.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAE4C12198BFA6001D901F /* Signal+Merge.swift */; };
 		EBFAE4C42198C023001D901F /* Signal+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAE4C32198C023001D901F /* Signal+Combine.swift */; };
 		EBFAE4C62198C054001D901F /* Signal+MergeMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAE4C52198C054001D901F /* Signal+MergeMap.swift */; };
+		EBFAE4C82198C097001D901F /* Signal+Just.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAE4C72198C097001D901F /* Signal+Just.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +49,7 @@
 		EBFAE4C12198BFA6001D901F /* Signal+Merge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal+Merge.swift"; sourceTree = "<group>"; };
 		EBFAE4C32198C023001D901F /* Signal+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal+Combine.swift"; sourceTree = "<group>"; };
 		EBFAE4C52198C054001D901F /* Signal+MergeMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal+MergeMap.swift"; sourceTree = "<group>"; };
+		EBFAE4C72198C097001D901F /* Signal+Just.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal+Just.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,6 +118,7 @@
 				EBFAE4BD2198BD4C001D901F /* Signal+Distinct.swift */,
 				EBFAE4BF2198BDFA001D901F /* Signal+Replay.swift */,
 				EBFAE4C12198BFA6001D901F /* Signal+Merge.swift */,
+				EBFAE4C72198C097001D901F /* Signal+Just.swift */,
 				EBFAE4C52198C054001D901F /* Signal+MergeMap.swift */,
 				EBFAE4C32198C023001D901F /* Signal+Combine.swift */,
 			);
@@ -223,6 +226,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBFAE4C62198C054001D901F /* Signal+MergeMap.swift in Sources */,
+				EBFAE4C82198C097001D901F /* Signal+Just.swift in Sources */,
 				EBFAE4BC2198BCA8001D901F /* Signal+Filter.swift in Sources */,
 				EBFAE4C42198C023001D901F /* Signal+Combine.swift in Sources */,
 				EBFAE4BE2198BD4C001D901F /* Signal+Distinct.swift in Sources */,
