@@ -22,6 +22,9 @@ class Signal<Element> {
     }
 }
 
+
+// MARK: - Source
+
 enum SourceOption {
     case publishOnlyToLatestListener
 }
@@ -65,7 +68,43 @@ final class Source<Element>: Signal<Element> {
     }
 }
 
-// MARK: - Subscriber tokens
+
+// MARK: - Operators
+
+protocol SignalOperator {
+    associatedtype Input
+    associatedtype Output
+
+    func onCreate(_ upstream: Signal<Input>) -> SignalToken?
+    func lift(_ handler: @escaping (Output) -> Void) -> (Input) -> Void
+}
+
+extension SignalOperator {
+    func onCreate(_ upstream: Signal<Input>) -> SignalToken? {
+        return nil
+    }
+}
+
+final class OperandSignal<Operator: SignalOperator>: Signal<Operator.Output> {
+
+    private let upstream: Signal<Operator.Input>
+    private let op: Operator
+    private var upstreamToken: SignalToken?
+
+    init(upstream: Signal<Operator.Input>, op: Operator) {
+        self.upstream = upstream
+        self.op = op
+        super.init()
+        self.upstreamToken = op.onCreate(upstream)
+    }
+
+    override func listen(_ handler: @escaping (Operator.Output) -> Void) -> SignalToken {
+        return upstream.listen(op.lift(handler))
+    }
+}
+
+
+// MARK: - Tokens
 
 protocol SignalToken: AnyObject {}
 

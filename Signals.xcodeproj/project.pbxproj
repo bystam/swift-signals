@@ -13,6 +13,11 @@
 		EBFA41CF2166A13200932586 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EBFA41CD2166A13200932586 /* LaunchScreen.storyboard */; };
 		EBFAE4B62198907E001D901F /* Signals.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAE4B52198907E001D901F /* Signals.swift */; };
 		EBFAE4B821989127001D901F /* Signals+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAE4B721989127001D901F /* Signals+Extension.swift */; };
+		EBFAE4BA2198BBEE001D901F /* Signal+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAE4B92198BBEE001D901F /* Signal+Map.swift */; };
+		EBFAE4BC2198BCA8001D901F /* Signal+Filter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAE4BB2198BCA8001D901F /* Signal+Filter.swift */; };
+		EBFAE4BE2198BD4C001D901F /* Signal+Distinct.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAE4BD2198BD4C001D901F /* Signal+Distinct.swift */; };
+		EBFAE4C02198BDFA001D901F /* Signal+Replay.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAE4BF2198BDFA001D901F /* Signal+Replay.swift */; };
+		EBFAE4C22198BFA6001D901F /* Signal+Merge.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFAE4C12198BFA6001D901F /* Signal+Merge.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +41,11 @@
 		EBFA41DB2166A13200932586 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EBFAE4B52198907E001D901F /* Signals.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Signals.swift; sourceTree = "<group>"; };
 		EBFAE4B721989127001D901F /* Signals+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signals+Extension.swift"; sourceTree = "<group>"; };
+		EBFAE4B92198BBEE001D901F /* Signal+Map.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal+Map.swift"; sourceTree = "<group>"; };
+		EBFAE4BB2198BCA8001D901F /* Signal+Filter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal+Filter.swift"; sourceTree = "<group>"; };
+		EBFAE4BD2198BD4C001D901F /* Signal+Distinct.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal+Distinct.swift"; sourceTree = "<group>"; };
+		EBFAE4BF2198BDFA001D901F /* Signal+Replay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal+Replay.swift"; sourceTree = "<group>"; };
+		EBFAE4C12198BFA6001D901F /* Signal+Merge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Signal+Merge.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +110,11 @@
 			children = (
 				EBFAE4B52198907E001D901F /* Signals.swift */,
 				EBFAE4B721989127001D901F /* Signals+Extension.swift */,
+				EBFAE4B92198BBEE001D901F /* Signal+Map.swift */,
+				EBFAE4BB2198BCA8001D901F /* Signal+Filter.swift */,
+				EBFAE4BD2198BD4C001D901F /* Signal+Distinct.swift */,
+				EBFAE4BF2198BDFA001D901F /* Signal+Replay.swift */,
+				EBFAE4C12198BFA6001D901F /* Signal+Merge.swift */,
 			);
 			path = Signals;
 			sourceTree = "<group>";
@@ -204,8 +219,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EBFAE4BC2198BCA8001D901F /* Signal+Filter.swift in Sources */,
+				EBFAE4BE2198BD4C001D901F /* Signal+Distinct.swift in Sources */,
 				EBFAE4B821989127001D901F /* Signals+Extension.swift in Sources */,
+				EBFAE4C02198BDFA001D901F /* Signal+Replay.swift in Sources */,
 				EBFA41C52166A13100932586 /* AppDelegate.swift in Sources */,
+				EBFAE4BA2198BBEE001D901F /* Signal+Map.swift in Sources */,
+				EBFAE4C22198BFA6001D901F /* Signal+Merge.swift in Sources */,
 				EBFAE4B62198907E001D901F /* Signals.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
