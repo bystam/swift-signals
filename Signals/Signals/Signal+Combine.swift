@@ -4,26 +4,6 @@
 
 import Foundation
 
-final class SimpleOperator<Input, Output>: SignalOperator {
-    private let op: (Input, @escaping (Output) -> Void) -> Void
-    init(op: @escaping (Input, @escaping (Output) -> Void) -> Void) { self.op = op }
-
-    func lift(_ handler: @escaping (Output) -> Void) -> (Input) -> Void {
-        let op = self.op
-        return { (inElement: Input) in
-            op(inElement, { (outElement: Output) in
-                handler(outElement)
-            })
-        }
-    }
-}
-
-extension Signal {
-    func mapAndMerge<DownstreamElement>(_ transform: @escaping (Element) -> Signal<DownstreamElement>) -> Signal<DownstreamElement> {
-        fatalError()
-    }
-}
-
 extension Signal {
 
     static func combine<A, B>(_ a: Signal<A>, _ b: Signal<B>, with transform: @escaping (A, B) -> Element) -> Signal<Element> {
@@ -67,10 +47,8 @@ extension Signal {
             return transform(values[0] as! A, values[1] as! B, values[2] as! C, values[3] as! D)
         })
     }
-}
 
-private extension Signal {
-    func typeErase() -> Signal<Any> {
+    private func typeErase() -> Signal<Any> {
         return map { $0 as Any }
     }
 }

@@ -6,7 +6,6 @@ import Foundation
 
 extension Signal {
     func filter(_ predicate: @escaping (Element) -> Bool) -> Signal<Element> {
-        //        return Filter(upstream: self, predicate: predicate)
         return OperandSignal(upstream: self, op: Filter(predicate: predicate))
     }
 }
