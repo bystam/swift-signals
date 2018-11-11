@@ -124,6 +124,31 @@ class SignalsTests: XCTestCase {
         }
     }
 
+    func testDebounce() {
+        let signal = source
+            .debounce(delay: 0.1)
+
+        var values: [Int] = []
+        let exp = expectation(description: "")
+
+        signal
+            .listen { int in
+                values.append(int)
+                exp.fulfill()
+            }
+            .bindLifetime(to: bag)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.03, execute: { self.source.publish(1) })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.06, execute: { self.source.publish(2) })
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.09, execute: { self.source.publish(3) })
+
+        XCTAssertEqual(values, [])
+        waitForExpectations(timeout: 0.3) { error in
+            XCTAssertNil(error)
+            XCTAssertEqual(values, [3])
+        }
+    }
+
     func testFilter() {
         let signal = source
             .filter { $0 < 5 }
