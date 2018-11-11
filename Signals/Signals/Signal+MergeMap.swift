@@ -4,7 +4,6 @@
 
 import Foundation
 
-
 extension Signal {
 
     func mergeMap<DownstreamElement>(_ mapper: @escaping (Element) -> Signal<DownstreamElement>) -> Signal<DownstreamElement> {

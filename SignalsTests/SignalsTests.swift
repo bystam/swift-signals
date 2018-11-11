@@ -73,6 +73,21 @@ class SignalsTests: XCTestCase {
         XCTAssertEqual(values, [1339])
     }
 
+    func testTask_synchronous() {
+        let signal = Task<Int>()
+
+        signal
+            .listen(with: self, placeInValues)
+            .bindLifetime(to: bag)
+        signal
+            .listen(with: self, placeInValues)
+            .bindLifetime(to: bag)
+
+        signal.finish(1337)
+
+        XCTAssertEqual(values, [1337, 1337])
+    }
+
     func testJust_one() {
         let signal = Signal<Int>.just(5)
 
@@ -94,6 +109,19 @@ class SignalsTests: XCTestCase {
             .bindLifetime(to: bag)
 
         XCTAssertEqual(values, [5, 5])
+    }
+
+    func testDelay() {
+        let signal = Signal<Void>.delay(0.1)
+        let exp = expectation(description: "")
+
+        signal
+            .listen { exp.fulfill() }
+            .bindLifetime(to: bag)
+
+        waitForExpectations(timeout: 0.3) { error in
+            XCTAssertNil(error)
+        }
     }
 
     func testFilter() {
@@ -294,6 +322,32 @@ class SignalsTests: XCTestCase {
         secondSource.publish(4)
         secondSource.publish(5)
         XCTAssertEqual(values, [3, 4, 5])
+    }
+
+    func testMergeMap_withDelay() {
+        let signal = source
+            .mergeMap { int in Signal<Void>.delay(0.1).map { _ in int } }
+
+        var values: [Int] = []
+        let exp = expectation(description: "")
+        exp.expectedFulfillmentCount = 3
+
+        signal
+            .listen { int in
+                values.append(int)
+                exp.fulfill()
+            }
+            .bindLifetime(to: bag)
+
+        source.publish(1)
+        source.publish(2)
+        source.publish(3)
+
+        XCTAssertEqual(values, [])
+        waitForExpectations(timeout: 0.3) { error in
+            XCTAssertNil(error)
+            XCTAssertEqual(values, [1, 2, 3])
+        }
     }
 
     func testMerge_noElements_beforeListening() {

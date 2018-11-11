@@ -69,6 +69,49 @@ final class Source<Element>: Signal<Element> {
 }
 
 
+// MARK: - Task
+
+private let kDummyToken: SignalToken = SignalTokenBag()
+
+final class Task<Element>: Signal<Element> {
+
+    private typealias Handler = (Element) -> Void
+
+    private var order: [UUID] = []
+    private var handlers: [UUID: Handler] = [:]
+
+    private var element: Element? = nil
+
+    override func listen(_ handler: @escaping (Element) -> Void) -> SignalToken {
+        if let element = element {
+            handler(element)
+            return kDummyToken
+        }
+
+        let id = UUID()
+        order.append(id)
+        handlers[id] = handler
+
+        return SourceToken { [weak self] in
+            self?.removeListener(withID: id)
+        }
+    }
+
+    func finish(_ element: Element) {
+        precondition(self.element == nil, "Can't finish Tasks twice")
+        self.element = element
+        order.reversed()
+            .compactMap { handlers[$0] }
+            .forEach { $0(element) }
+    }
+
+    private func removeListener(withID id: UUID) {
+        handlers[id] = nil
+        order.removeAll(where: { $0 == id })
+    }
+}
+
+
 // MARK: - Operators
 
 protocol SignalOperator {
