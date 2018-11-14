@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EB4DF970219CBECB00B57DB7 /* SignalsConcurrencyTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB4DF96F219CBECB00B57DB7 /* SignalsConcurrencyTests.swift */; };
 		EBB2FFE42167BB4B009E5B4C /* SignalsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBB2FFE32167BB4B009E5B4C /* SignalsTests.swift */; };
 		EBFA41C52166A13100932586 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EBFA41C42166A13100932586 /* AppDelegate.swift */; };
 		EBFA41CC2166A13200932586 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EBFA41CB2166A13200932586 /* Assets.xcassets */; };
@@ -35,6 +36,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EB4DF96F219CBECB00B57DB7 /* SignalsConcurrencyTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalsConcurrencyTests.swift; sourceTree = "<group>"; };
 		EBB2FFE32167BB4B009E5B4C /* SignalsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignalsTests.swift; sourceTree = "<group>"; };
 		EBFA41C12166A13100932586 /* Signals.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Signals.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EBFA41C42166A13100932586 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			isa = PBXGroup;
 			children = (
 				EBB2FFE32167BB4B009E5B4C /* SignalsTests.swift */,
+				EB4DF96F219CBECB00B57DB7 /* SignalsConcurrencyTests.swift */,
 				EBFA41DB2166A13200932586 /* Info.plist */,
 			);
 			path = SignalsTests;
@@ -251,6 +254,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EBB2FFE42167BB4B009E5B4C /* SignalsTests.swift in Sources */,
+				EB4DF970219CBECB00B57DB7 /* SignalsConcurrencyTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
