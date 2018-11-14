@@ -58,4 +58,20 @@ class SignalsConcurrencyTests: XCTestCase {
         wait(for: [exp], timeout: 5.0)
         XCTAssertEqual(values.count, 1000)
     }
+
+    func testReplay_threadSafety1() {
+        let source = Source<Int>()
+        let signal = source.replay(count: 1000)
+        var values: [Int] = []
+
+        DispatchQueue.concurrentPerform(iterations: 1000) { i in
+            source.publish(i)
+        }
+
+        signal.listen { int in
+            values.append(int)
+        }.bindLifetime(to: self.bag)
+
+        XCTAssertEqual(values.count, 1000)
+    }
 }
