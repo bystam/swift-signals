@@ -55,16 +55,11 @@ extension Signal {
 
 private final class Combinator<Element>: Signal<Element> {
 
-    enum FrequencyType {
-        case zip, combine
-    }
-
     private let upstreams: [Signal<Any>]
     private let resetOnGenerate: Bool
     private let transform: ([Any]) -> Element
 
     private let preListeningElements: Elements
-//    private var preListeningElements: [Any?]
     private var upstreamToken: SignalToken?
 
     init(upstreams: [Signal<Any>], resetOnGenerate: Bool, transform: @escaping ([Any]) -> Element) {
@@ -78,7 +73,6 @@ private final class Combinator<Element>: Signal<Element> {
         let tokens = upstreams.enumerated().map { index, upstream in
             return upstream.listen(with: self, { this, element in
                 _ = this.preListeningElements.insert(value: element, at: index, resetOnGenerate: resetOnGenerate)
-//                _ = this.generateValueIfFilled(inserting: element, at: index, in: &this.preListeningElements)
             })
         }
 
@@ -97,18 +91,6 @@ private final class Combinator<Element>: Signal<Element> {
 
         return SignalTokenBag(tokens: tokens)
     }
-//
-//    private func generateValueIfFilled(inserting value: Any, at index: Int, in elements: inout [Any?]) -> Element? {
-//        elements[index] = value
-//        let existingElements = elements.filter { $0 != nil }.map { $0! }
-//        if existingElements.count == upstreams.count {
-//            if type == .zip {
-//                elements = Array(repeating: nil, count: upstreams.count)
-//            }
-//            return transform(existingElements)
-//        }
-//        return nil
-//    }
 }
 
 private final class Elements {
