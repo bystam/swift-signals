@@ -85,7 +85,7 @@ class SignalsConcurrencyTests: XCTestCase {
         var values: [Int] = []
 
         let exp = expectation(description: "lol")
-        exp.expectedFulfillmentCount = 1001
+        exp.expectedFulfillmentCount = 801
 
         signal.listen { int in
             DispatchQueue.main.async {
@@ -98,7 +98,7 @@ class SignalsConcurrencyTests: XCTestCase {
         source1.publish(-1)
         source3.publish(-1)
 
-        DispatchQueue.concurrentPerform(iterations: 1000) { i in
+        DispatchQueue.concurrentPerform(iterations: 800) { i in
             signal.listen { _ in
             }.bindLifetime(to: self.bag)
 
@@ -111,7 +111,7 @@ class SignalsConcurrencyTests: XCTestCase {
         }
 
         wait(for: [exp], timeout: 5.0)
-        XCTAssertEqual(values.count, 1001)
+        XCTAssertEqual(values.count, 801)
     }
 
 
