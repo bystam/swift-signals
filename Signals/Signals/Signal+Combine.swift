@@ -96,14 +96,14 @@ private final class Combinator<Element>: Signal<Element> {
 private final class Elements {
 
     private var array: [Any?]
-    private let mutex = DispatchQueue(label: "Combinator.Elements.mutex", attributes: .concurrent)
+    private let mutex = DispatchQueue(label: "Combinator.Elements.mutex")
 
     init(array: [Any?]) {
         self.array = array
     }
 
     func insert(value: Any, at index: Int, resetOnGenerate: Bool) -> [Any]? {
-        return mutex.sync(flags: .barrier) {
+        return mutex.sync {
             array[index] = value
             let existingElements = array.filter { $0 != nil }.map { $0! }
             if existingElements.count == array.count {
@@ -117,7 +117,7 @@ private final class Elements {
     }
 
     func clone() -> Elements {
-        return mutex.sync(flags: .barrier) {
+        return mutex.sync {
             return Elements(array: array)
         }
     }
